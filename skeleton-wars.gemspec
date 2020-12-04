@@ -1,8 +1,8 @@
-require_relative 'lib/skeleton/wars/version'
+require_relative 'lib/skeletons/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "skeleton-wars"
-  spec.version       = Skeleton::Wars::VERSION
+  spec.name          = "skeleton_wars"
+  spec.version       = SkeletonWars::VERSION
   spec.authors       = ["Ghostily-Boo"]
   spec.email         = ["grace.rl.qin@gmail.com"]
 

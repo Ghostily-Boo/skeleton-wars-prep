@@ -1,8 +1,4 @@
-require "skeleton/wars/version"
+require "open-uri"
+require "colorize" #to be used later by cli.rb
 
-module Skeleton
-  module Wars
-    class Error < StandardError; end
-    # Your code goes here...
-  end
-end
+require_relative "./skeletons" #can i just require whole directory?

@@ -1,1 +1,2 @@
-#species superclass
+class Species
+    LIST = [dog, human, horse]
