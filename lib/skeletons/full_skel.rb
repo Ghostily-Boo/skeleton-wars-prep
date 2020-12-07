@@ -2,11 +2,11 @@ class FullSkeleton
 
     @@tracker = {}
 
-    def initialize(species)
+    def initialize(species, part = skeleton)
         # if tracker includes species
         #     give back something from hash
         # else
-        #     Api.new(species, no part)
+        #     Api.new(species, part)
         # end
     end
     
