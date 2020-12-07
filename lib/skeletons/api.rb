@@ -1,20 +1,21 @@
-require 'json'
-require 'pry'
-require 'open-uri'
 
 class API
+
+    require 'json'
+    require 'pry'
+    require 'open-uri'
+
+
     BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=#{ENV['AUTH']}"
 
     def image_get(animal, part)
-        # base url + podid "BodyLocation:AnimalAnatomyData" + subpod "img src"
-        # animal_part = 
+        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:AnimalAnatomyData&format=image"
+        @image = JSON.load(open(url))
     end
 
     def plaintext_get(animal, part)
-        # BASE_URL + 
-        # "&input=#{animal}+#{part}+skeleton&podstate=100@ConstitutionalParts:AnimalAnatomyData__More"
-        # convert into list
-        # organize()
+        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:AnimalAnatomyData&includepodid=HierarchyRelationships:AnimalAnatomyData&podstate=100@More&format=plaintext"
+        @result = JSON.load(open(url))
     end
 
     def organize()
