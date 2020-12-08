@@ -2,7 +2,7 @@ class CLI
     SPECIES = ["dog", "human", "horse"]
 
     def initialize
-        puts "Brush up on your skeleton knowledge!/n
+        puts "Brush up on your skeleton knowledge!\n
             We have information on the following species: dog, horse, human"
         species_get
     end

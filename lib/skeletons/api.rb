@@ -1,11 +1,6 @@
 
 class API
 
-    require 'json'
-    require 'pry'
-    require 'open-uri'
-
-
     BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=#{ENV['AUTH']}"
 
     def initialize(animal, part)
