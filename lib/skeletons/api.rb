@@ -1,3 +1,5 @@
+require 'dotenv/load'
+
 
 class API
 
@@ -17,6 +19,7 @@ class API
     def plaintext_get(animal, part)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:AnimalAnatomyData&includepodid=HierarchyRelationships:AnimalAnatomyData&podstate=100@More&format=plaintext"
         @result = JSON.load(open(url))
+        binding.pry
     end
 
     def organize()

@@ -10,13 +10,8 @@ class FullSkeleton
         
     def species
         choices = {Dog: 1, Horse: 2, Human: 3}
-        CLI.species_get(choices)
-
-        # if tracker includes species
-        #     give back something from hash
-        # else
-        #     Api.new(species, part)
-        # end
+        animal = CLI.species_get(choices)
+        API.new(animal, "skeleton")
     end
     
 end
