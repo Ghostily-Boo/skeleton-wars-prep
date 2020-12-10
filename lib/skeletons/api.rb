@@ -18,23 +18,25 @@ class API
     def result(hash)
         array = hash.values[0]["pods"]
         path = ["src", "img", "subpods"]
-        def search(input, path)
+        
+        search(array, path)
+    end
+
+    def search(input, path)
+        binding.pry
+        input.each do |a|
             binding.pry
-            input.each do |a|
+            if a.class == Hash
                 binding.pry
-                if a.class == Hash
+                return a[path[0]] if a[path[0]]
+                path.drop(1).each do |keyword|
                     binding.pry
-                    return a[path[0]] if a[path[0]]
-                    path.drop(1).each do |keyword|
-                        binding.pry
-                        search(a[keyword], path) if a[keyword]
-                    end
-                elsif a.class == Array
-                    search(a, path)
+                    search(a[keyword], path) if a[keyword]
                 end
+            elsif a.class == Array
+                search(a, path)
             end
         end
-        search(array, path)
     end
 
 end
