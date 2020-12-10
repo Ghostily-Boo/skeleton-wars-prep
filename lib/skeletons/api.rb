@@ -5,8 +5,7 @@ class API
     def image_get(animal, part)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:AnimalAnatomyData"
         image = JSON.load(open(url))
-        final = result(image, "src")
-        binding.pry
+        result(image, "src")
     end
 
     def plaintext_get(animal, part)
@@ -16,13 +15,10 @@ class API
     end
 
     def result(hash, word)
-        hash.each do |key, value|
-            if key == word
-                return value
-            else
-                result(value, word)
-            end
-        end
+        array = hash.values[0]["pods"]
+        array.each do |a|
+            if a.class == Hash
+                hash["src"] || hash["img"] || hash["subpods"]
     end
 
 end
