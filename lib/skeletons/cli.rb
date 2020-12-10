@@ -1,10 +1,13 @@
 class CLI
 
     def initialize
+        puts "Brush up on your skeleton knowledge!"
         @@prompt = TTY::Prompt.new
+        API.new.image_get(species_get, "skeleton")
     end
 
-    def self.species_get(choices)
+    def species_get
+        choices = {Dog: 1, Horse: 2, Human: 3}
         value = @@prompt.select("Which species would you like to learn more about?", choices)
         choices.keys[value-1].to_s
     end
