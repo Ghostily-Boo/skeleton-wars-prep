@@ -8,4 +8,4 @@
 /tmp/
 
 .env
-./lib/skeletons/testapi.rb
+.testapi.rb
