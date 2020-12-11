@@ -5,7 +5,6 @@ class API
     def image_get(animal, part)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:AnimalAnatomyData"
         image = JSON.load(open(url))
-        binding.pry
         result(image)
     end
 
@@ -18,22 +17,18 @@ class API
     def result(hash)
         array = hash.values[0]["pods"]
         path = ["src", "img", "subpods"]
-        
-        search(array, path)
+        result = search(array, path)
+        binding.pry
     end
 
     def search(input, path)
-        binding.pry
         input.each do |a|
-            binding.pry
             if a.class == Hash
-                binding.pry
-                return a[path[0]] if a[path[0]]
                 path.drop(1).each do |keyword|
-                    binding.pry
-                    search(a[keyword], path) if a[keyword]
+                    return search(a[keyword], path) if a[keyword]
                 end
             elsif a.class == Array
+                return a[1] if a[0] == path[0]
                 search(a, path)
             end
         end
