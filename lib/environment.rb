@@ -3,6 +3,7 @@ require 'json'
 require 'pry'
 require 'open-uri'
 require 'tty-prompt'
+require 'launchy'
 
 require "colorize" #to be used later by cli.rb
 

@@ -1,24 +1,23 @@
 class API
 
-    BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=HRT7R3-8HE5552JY2"
+    BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=#{ENV['AUTH']}"
 
-    def image_get(animal, part)
-        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:AnimalAnatomyData"
+    def image_get(animal, part, group = "")
+        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
         image = JSON.load(open(url))
-        result(image)
+        path = ["src", "img", "subpods"]
+        Launchy.open(result(image, path))
     end
 
-    def plaintext_get(animal, part)
-        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:AnimalAnatomyData&includepodid=HierarchyRelationships:AnimalAnatomyData&podstate=100@More&format=plaintext"
+    def plaintext_get(animal, part, group = "")
+        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
         @result = JSON.load(open(url))
         binding.pry
     end
 
-    def result(hash)
-        array = hash.values[0]["pods"]
-        path = ["src", "img", "subpods"]
+    def result(api, path)
+        array = api.values[0]["pods"]
         result = search(array, path)
-        binding.pry
     end
 
     def search(input, path)
