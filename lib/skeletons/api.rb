@@ -2,7 +2,7 @@ class API
 
     BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=#{ENV['AUTH']}"
 
-    def image_get(animal, part, group = "")
+    def image_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
         image = JSON.load(open(url))
         path = ["src", "img", "subpods"]
@@ -17,7 +17,7 @@ class API
         # end
     end
 
-    def plaintext_get(animal, part, group = "")
+    def plaintext_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
         @result = JSON.load(open(url))
         binding.pry
