@@ -12,7 +12,7 @@ class CLI
 
     def appendicular(species, group)
         puts "You've reached the #{species} appendicular skeleton!"
-        API.new.plaintext_get(species, "appendicular", group)
+        API.new.plaintext_get(species, "appendicular+skeleton", group)
     end
 
     def axial(species)

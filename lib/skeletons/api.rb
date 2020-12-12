@@ -19,16 +19,20 @@ class API
 
     def plaintext_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
-        @result = JSON.load(open(url))
+        plaintext = JSON.load(open(url))
+        path = ["plaintext", "members", "subpods"]
+        components = result(plaintext, path)
         binding.pry
     end
 
     def result(api, path)
+        binding.pry
         array = api.values[0]["pods"]
         result = search(array, path)
     end
 
     def search(input, path)
+        binding.pry
         input.each do |a|
             if a.class == Hash
                 path.drop(1).each do |keyword|
