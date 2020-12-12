@@ -4,38 +4,39 @@ class API
 
     def image_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
-        image = JSON.load(open(url))
+        api = JSON.load(open(url))
+        array = api.values[0]["pods"]
         path = ["src", "img", "subpods"]
-        picture = result(image, path)
-        #Catpix::print_image open(picture)
-        # magic = Magick::Image.from_blob(open(picture).read)
-        # binding.pry
-        # magic[0].each_pixel do |pixel, col, row|
-        #     c = [pixel.red, pixel.green, pixel.blue].map {|v| 255 * v / 65535.0}
-        #     print " ".bg c
-        #     puts if col >= 53
-        # end
+        search_image(array, path)
     end
 
     def plaintext_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
-        plaintext = JSON.load(open(url))
-        path = ["plaintext", "members", "subpods"]
-        components = result(plaintext, path)
-        binding.pry
+        api = JSON.load(open(url))
+        array = api.values[0]["pods"]
+        path = ["plaintext", "subpods"]
+        array[1] ? search_text(array[1], path) : search_text(array[0], path)
     end
 
     def result(api, path)
-        binding.pry
         array = api.values[0]["pods"]
-        result = search(array, path)
+        array[1] ? result = search(array.drop(1), path) : result = search(array, path)
     end
 
-    def search(input, path)
-        binding.pry
+    def search_text(input, path)
+        if input[path[0]]
+            return seach(input[path[0]]) 
+        else
+            path.drop(1).each do |keyword|
+
+    end
+
+    def search_image(input, path)
         input.each do |a|
+            binding.pry
             if a.class == Hash
                 path.drop(1).each do |keyword|
+                    binding.pry
                     return search(a[keyword], path) if a[keyword]
                 end
             elsif a.class == Array
