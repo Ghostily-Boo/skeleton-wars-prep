@@ -14,34 +14,49 @@ class API
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
         api = JSON.load(open(url))
         array = api.values[0]["pods"]
-        path = ["plaintext", "subpods"]
-        array[1] ? search_text(array[1], path) : search_text(array[0], path)
+        path = ["subpods", "plaintext"]
+        list = array[1] ? search(array[1], path).split(" | ") : search(array[0], path)
     end
 
     def result(api, path)
         array = api.values[0]["pods"]
         array[1] ? result = search(array.drop(1), path) : result = search(array, path)
+        binding.pry
+    end
+
+    def search(input, path)
+        count = 0
+        while count <= path.length - 1
+            if input.class == Array
+                input[0] == path[count] ? (input = input[1]) && (count += 1) : input = input[0]
+            elsif input.class == Hash
+                input = input[path[count]]
+                count += 1
+            end
+        end
+        input
     end
 
     def search_text(input, path)
-        if input[path[0]]
-            return seach(input[path[0]]) 
-        else
-            path.drop(1).each do |keyword|
-
+        binding.pry
+        path.drop(1).each do |keyword|
+            if input.class == Array
+                input || search_text(input[0])
+            elsif input.class == Hash
+                return a.values[0]
+            end
+        end
     end
 
     def search_image(input, path)
         input.each do |a|
-            binding.pry
             if a.class == Hash
                 path.drop(1).each do |keyword|
-                    binding.pry
-                    return search(a[keyword], path) if a[keyword]
+                    return search_image(a[keyword], path) if a[keyword]
                 end
             elsif a.class == Array
                 return a[1] if a[0] == path[0]
-                search(a, path)
+                search_image(a, path)
             end
         end
     end

@@ -11,12 +11,12 @@ class CLI
     end
 
     def appendicular(species, group)
-        puts "You've reached the #{species} appendicular skeleton!"
+        puts "You've reached the #{species} Appendicular Skeleton!"
         API.new.plaintext_get(species, "appendicular+skeleton", group)
     end
 
     def axial(species)
-        puts "You've reached the #{species} axial skeleton!"
+        puts "You've reached the #{species} Axial Skeleton!"
     end
 
     def species_get
