@@ -1,10 +1,11 @@
 class CLI
 
-    def initialize
-        puts "Brush up on your skeleton knowledge!\nWhich species would you like to learn more about?"
+    def initialize(call = 1)
+        puts "\nBrush up on your skeleton knowledge!\nWhich species would you like to learn more about?"
         @@prompt = TTY::Prompt.new
         type = species_get
-        part = @@prompt.select("A #{type[0]} skeleton is composed of two main parts.\nWhich part would you like to see?", {"Appendicular Bones": 1, "Axial Bones": 2, "Full Skeleton Image": 3, "Main Menu": 4})
+        puts "\nA #{type[0]} skeleton is composed of two main parts."
+        part = @@prompt.select("\nWhat would you like to see?", {"Appendicular Bones": 1, "Axial Bones": 2, "Full Skeleton Image": 3, "Main Menu": 4})
         appendicular(type[0], type[1]) if part == 1
         axial(type[0], type[1]) if part == 2
         puts API.new.image_get(type[0], "skeleton", type[1]) if part == 3
@@ -12,10 +13,10 @@ class CLI
     end
 
     def appendicular(species, group, call = 1)
-        puts "You're in the #{species} Appendicular Skeleton!"
+        puts "\nYou're in the #{species} Appendicular Skeleton!"
         list = API.new.plaintext_get(species, "appendicular+skeleton", group) if call == 1
-        puts "A #{species} appendicular skeleton has #{list.length} bones divided into a few subgroups." if call == 1
-        choice = @@prompt.select("What would you like to see?", {"Appendicular Skeleton Image": 1, "Forelimb Image": 2, "Hindlimb Image": 3, "Compare with Another Animal": 4, "Main Menu": 5})
+        puts "\nA #{species} appendicular skeleton has #{list.length} bones divided into a few subgroups." if call == 1
+        choice = @@prompt.select("\nWhat would you like to see?", {"Appendicular Skeleton Image": 1, "Forelimb Image": 2, "Hindlimb Image": 3, "Compare with Another Animal": 4, "Main Menu": 5})
         puts API.new.image_get(species, "appendicular+skeleton", "Animal") if choice == 1
         puts API.new.image_get(species, "forelimb+bones", "Animal") if choice == 2
         puts API.new.image_get(species, "hindlimb+bones", "Animal") if choice == 3
@@ -25,10 +26,10 @@ class CLI
     end
 
     def axial(species, group, call = 1)
-        puts "You're in the #{species} Axial Skeleton!"
+        puts "\nYou're in the #{species} Axial Skeleton!"
         list = API.new.plaintext_get(species, "axial+skeleton", group) if call == 1
-        puts "A #{species} axial skeleton has #{list.length} bones divided into a few subgroups." if call == 1
-        choice = @@prompt.select("What would you like to see?", {"Axial Skeleton Image": 1, "Skull Image": 2, "Compare with Another Animal": 3, "Main Menu": 4})
+        puts "\nA #{species} axial skeleton has #{list.length} bones divided into a few subgroups." if call == 1
+        choice = @@prompt.select("\nWhat would you like to see?", {"Axial Skeleton Image": 1, "Skull Image": 2, "Compare with Another Animal": 3, "Main Menu": 4})
         puts API.new.image_get(species, "axial+skeleton", "Animal") if choice == 1
         puts API.new.image_get(species, "skull", "Animal") if choice == 2
         (type = species_get) && (puts API.new.image_get(type[0], "skull", type[1]))  if choice == 3
