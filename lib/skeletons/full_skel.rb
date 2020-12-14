@@ -1,6 +1,0 @@
-class FullSkeleton
-
-    @@tracker = {}
-        
-
-end

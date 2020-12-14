@@ -7,7 +7,7 @@ class API
         api = JSON.load(open(url))
         array = api.values[0]["pods"]
         path = ["src", "img", "subpods"]
-        search_image(array, path)
+        puts search_image(array, path)
     end
 
     def plaintext_get(animal, part, group)
@@ -15,13 +15,7 @@ class API
         api = JSON.load(open(url))
         array = api.values[0]["pods"]
         path = ["subpods", "plaintext"]
-        list = array[1] ? search(array[1], path).split(" | ") : search(array[0], path)
-    end
-
-    def result(api, path)
-        array = api.values[0]["pods"]
-        array[1] ? result = search(array.drop(1), path) : result = search(array, path)
-        binding.pry
+        list = array[1] ? search(array[1], path).split(" | ") : search(array[0], path).split(" | ")
     end
 
     def search(input, path)
@@ -35,17 +29,6 @@ class API
             end
         end
         input
-    end
-
-    def search_text(input, path)
-        binding.pry
-        path.drop(1).each do |keyword|
-            if input.class == Array
-                input || search_text(input[0])
-            elsif input.class == Hash
-                return a.values[0]
-            end
-        end
     end
 
     def search_image(input, path)
