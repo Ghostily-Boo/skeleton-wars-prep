@@ -1,15 +1,27 @@
 class CLI
 
-    def initialize(call = 1)
-        puts "\nBrush up on your skeleton knowledge!\nWhich species would you like to learn more about?"
+    def initialize
         @@prompt = TTY::Prompt.new
+        puts "\nBrush up on your skeleton knowledge!"
+        main
+    end
+
+    def main
+        choices = {
+            "Appendicular Bones": 1,
+            "Axial Bones": 2,
+            "Full Skeleton Image": 3,
+            "Main Menu": 4
+        }
+        puts "\nWhich species would you like to learn more about?"
         type = species_get
         puts "\nA #{type[0]} skeleton is composed of two main parts."
-        part = @@prompt.select("\nWhat would you like to see?", {"Appendicular Bones": 1, "Axial Bones": 2, "Full Skeleton Image": 3, "Main Menu": 4})
+        part = @@prompt.select("\nWhat would you like to see?", choices)
+
         appendicular(type[0], type[1]) if part == 1
         axial(type[0], type[1]) if part == 2
         puts API.new.image_get(type[0], "skeleton", type[1]) if part == 3
-        CLI.new if part == 4
+        main if part == 4
     end
 
     def appendicular(species, group, call = 1)

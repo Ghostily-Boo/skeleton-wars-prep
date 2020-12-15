@@ -5,20 +5,20 @@ class API
     def image_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
         api = JSON.load(open(url))
-        array = api.values[0]["pods"]
         path = ["subpods", "img", "src"]
-        puts search(array, path)
+        puts search(api, path)
     end
 
     def plaintext_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
         api = JSON.load(open(url))
-        array = api.values[0]["pods"]
         path = ["subpods", "plaintext"]
-        list = array[1] ? search(array[1], path).split(" | ") : search(array[0], path).split(" | ")
+        list = search(api, path).split(" | ")
     end
 
     def search(input, path)
+        input = input.values[0]["pods"]
+        input[1] ? input = input[1] : input = input[0]
         count = 0
         while count <= path.length - 1
             if input.class == Array
