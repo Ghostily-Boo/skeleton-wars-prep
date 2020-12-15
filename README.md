@@ -16,6 +16,8 @@ And then execute:
 Or install it yourself as:
 
     $ gem install skeleton-wars-prep
+    
+Note that some gems require you to have ImageMagick
 
 ## Usage
 
