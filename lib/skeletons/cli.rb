@@ -35,12 +35,20 @@ class CLI
         puts "\nYou're in the #{species} Appendicular Skeleton!"
         list = API.new.plaintext_get(species, "appendicular+skeleton", group) if call == 1
         puts "\nA #{species} appendicular skeleton has #{list.length} bones divided into a few subgroups." if call == 1
+        
         choice = @prompt.select("\nWhat would you like to see?", choices)
-        puts API.new.image_get(species, "appendicular+skeleton", "Animal") if choice == 1
-        puts API.new.image_get(species, "forelimb+bones", "Animal") if choice == 2
-        puts API.new.image_get(species, "hindlimb+bones", "Animal") if choice == 3
-        (type = species_get) && (puts API.new.image_get(type[0], "appendicular+bones", type[1])) if choice == 4
-        main if choice == 5
+        case choice
+        when 1
+            puts API.new.image_get(species, "appendicular+skeleton", "Animal")
+        when 2
+            puts API.new.image_get(species, "forelimb+bones", "Animal")
+        when 3
+            puts API.new.image_get(species, "hindlimb+bones", "Animal")
+        when 4
+        (type = species_get) && (puts API.new.image_get(type[0], "appendicular+bones", type[1]))
+        when 5
+            main
+        end
         appendicular(species, group, 2)
     end
 
