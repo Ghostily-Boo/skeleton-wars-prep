@@ -3,6 +3,8 @@ require 'json'
 require 'pry'
 require 'open-uri'
 require 'tty-prompt'
+require 'catpix'
+require 'down'
 
 require_relative "./skeletons/api"
 require_relative "./skeletons/cli"

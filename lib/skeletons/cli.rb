@@ -45,7 +45,7 @@ class CLI
         when 3
             puts API.new.image_get(species, "hindlimb+bones", "Animal")
         when 4
-        (type = species_get) && (puts API.new.image_get(type[0], "appendicular+bones", type[1]))
+            (type = species_get) && (puts API.new.image_get(type[0], "appendicular+bones", type[1]))
         when 5
             main
         end

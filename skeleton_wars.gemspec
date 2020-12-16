@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'json'
   spec.add_development_dependency 'tty-prompt'
   spec.add_development_dependency 'open-uri'
+  spec.add_development_dependency 'catpix'
+  spec.add_development_dependency 'down'
 end
