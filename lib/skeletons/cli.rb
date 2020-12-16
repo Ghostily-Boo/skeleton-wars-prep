@@ -1,7 +1,14 @@
 class CLI
 
+    SPECIES_OPTIONS = ["dog", "horse", "human"]
+
     def initialize
         @prompt = TTY::Prompt.new
+        SPECIES_OPTIONS.each do |s|
+            s == "human" ? type = "" : type = "Animal"
+            FullSkel.new(species: s, type: type) unless s == "human"
+        end
+        binding.pry
         puts "\nBrush up on your skeleton knowledge!"
         main
     end

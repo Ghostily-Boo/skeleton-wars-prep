@@ -7,7 +7,8 @@ class API
         api = JSON.load(open(url))
         trail = ["subpods", "img", "src"]
         file = open(search(api, trail)).path
-        Catpix::print_image "#{file}", limit_x: 0.5, resolution: "high"
+        binding.pry
+        Catpix::print_image file, limit_x: 0.5, resolution: "high"
     end
 
     def plaintext_get(animal, part, group)
