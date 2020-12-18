@@ -2,13 +2,15 @@ class API
 
     BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=#{ENV['AUTH']}"
 
-    def image_get(animal, part, group)
-        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
-        api = JSON.load(open(url))
+    def image_get(species, part, group)
+        input = BASE_URL + "&input=#{species}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
+        api = JSON.load(open(input))
         trail = ["subpods", "img", "src"]
-        file = open(search(api, trail)).path
-        binding.pry
-        Catpix::print_image file, limit_x: 0.5, resolution: "high"
+        url = search(api, trail)
+        file = open(url)
+        Catpix::print_image file.path, limit_y: 0.5, resolution: "high"
+        puts "High-res URL:".cyan.on_red
+        puts url.red
     end
 
     def plaintext_get(animal, part, group)

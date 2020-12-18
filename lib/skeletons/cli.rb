@@ -1,7 +1,7 @@
 class CLI
-    attr_accessor :primary, :compare
 
     def initialize
+        @api = API.new
         @prompt = TTY::Prompt.new
         puts "\n\n            @@@@@@@@@@@@@@@@@@             "
         puts '          @@@@@@@@@@@@@@@@@@@@@@@           '
@@ -23,7 +23,8 @@ class CLI
         puts "each bone's appearance  and  location so you"
         puts "can be completely ready!                    "
         puts "____________________________________________\n".cyan
-        primary = species_get
+        species_get
+        @api.image_get(@species, "Skeleton", @group)
         main
     end
 
@@ -34,8 +35,7 @@ class CLI
             "Full Skeleton Image": 3,
             "Main Menu": 4
         }
-        type = species_get
-        puts "\nA #{type[0]} skeleton is composed of two main parts."
+        puts "\nA #{@species} skeleton is composed of two main parts."
         part = @prompt.select("\nWhat would you like to see?", choices)
 
         appendicular(type[0], type[1]) if part == 1
@@ -86,11 +86,9 @@ class CLI
 
     def species_get
         choices = ["Dog", "Horse", "Human"]
-        choice = @prompt.select("Which species would you like to see?".light_red.bold, choices)
-        choice != "Human" ? group = "Animal" : group = ""
-        FullSkel.new(species: choice)
-        binding.pry
-        [choice, group]
+        @species = @prompt.select("Which species would you like to see?".light_red.bold, choices)
+        @species != "Human" ? @group = "Animal" : @group = ""
+        FullSkel.new(species: @species, type: @group)
     end
     
     def part_get(part, list)
