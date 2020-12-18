@@ -2,14 +2,13 @@ class FullSkel
 
     @@all = []
 
-    def initialize(species, attributes)
+    def initialize(nest = nil, attributes)
         attributes.each do |key, value|
-            binding.pry 
             self.class.attr_accessor(key)
             self.send(("#{key}="), value)
         end
+        nest ? nest << self : self.class.all << self
         binding.pry
-        self.class.all << self
     end
 
     def self.all

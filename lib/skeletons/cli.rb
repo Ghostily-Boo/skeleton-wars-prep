@@ -1,4 +1,5 @@
 class CLI
+    attr_accessor :primary, :compare
 
     def initialize
         @prompt = TTY::Prompt.new
@@ -22,6 +23,7 @@ class CLI
         puts "each bone's appearance  and  location so you"
         puts "can be completely ready!                    "
         puts "____________________________________________\n".cyan
+        primary = species_get
         main
     end
 
@@ -84,10 +86,9 @@ class CLI
 
     def species_get
         choices = ["Dog", "Horse", "Human"]
-        value = @prompt.select("Which species would you like to see?".red.bold.on_light_cyan, choices)
-        value !=3 ? group = "Animal" : group = ""
-        choice = choices.keys[value-1]
-        FullSkel.new(choice, type: group)
+        choice = @prompt.select("Which species would you like to see?".light_red.bold, choices)
+        choice != "Human" ? group = "Animal" : group = ""
+        FullSkel.new(species: choice)
         binding.pry
         [choice, group]
     end
