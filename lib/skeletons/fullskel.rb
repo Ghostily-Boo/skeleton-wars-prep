@@ -2,13 +2,14 @@ class FullSkel
 
     @@all = []
 
-    def initialize(attributes)
-        attributes.each do |key, value| 
+    def initialize(species, attributes)
+        attributes.each do |key, value|
+            binding.pry 
             self.class.attr_accessor(key)
             self.send(("#{key}="), value)
         end
-        self.class.all << self
         binding.pry
+        self.class.all << self
     end
 
     def self.all

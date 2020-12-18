@@ -4,7 +4,7 @@ require 'pry'
 require 'open-uri'
 require 'tty-prompt'
 require 'catpix'
-require 'down'
+require 'colorize'
 
 require_relative "./skeletons/api"
 require_relative "./skeletons/cli"

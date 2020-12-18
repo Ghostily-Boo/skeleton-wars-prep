@@ -1,15 +1,27 @@
 class CLI
 
-    SPECIES_OPTIONS = ["dog", "horse", "human"]
-
     def initialize
         @prompt = TTY::Prompt.new
-        SPECIES_OPTIONS.each do |s|
-            s == "human" ? type = "" : type = "Animal"
-            FullSkel.new(species: s, type: type) unless s == "human"
-        end
-        binding.pry
-        puts "\nBrush up on your skeleton knowledge!"
+        puts "\n\n            @@@@@@@@@@@@@@@@@@             "
+        puts '          @@@@@@@@@@@@@@@@@@@@@@@           '
+        puts '        @@@@@@@@@@@@@@@@@@@@@@@@@@@         '
+        puts '       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@        '
+        puts '      @@@@@@@@@@@@@@@/      \@@@/   @       '
+        puts '     @@@@@@@@@@@@@@@@\      @@  @___@       '
+        puts '     @@@@@@@@@@@@@ @@@@@@@@@@  | \@@@@@     '
+        puts '     @@@@@@@@@@@@@ @@@@@@@@@\__@_/@@@@@     '
+        puts '      @@@@@@@@@@@@@@@/,/,/./\'/_|.\\\'\,\      '
+        puts '        @@@@@@@@@@@@@|  | | | | | | | |     '
+        puts '                      \_|_|_|_|_|_|_|_|     '
+        puts "____________________________________________".cyan
+        puts "\n    Brush up on your skeleton knowledge!     ".bold
+        puts "____________________________________________".cyan
+        puts "\n"
+        puts "What if you or your companion skeleton loses"
+        puts "a bone?  Would you know where it goes? Learn"
+        puts "each bone's appearance  and  location so you"
+        puts "can be completely ready!                    "
+        puts "____________________________________________\n".cyan
         main
     end
 
@@ -20,7 +32,6 @@ class CLI
             "Full Skeleton Image": 3,
             "Main Menu": 4
         }
-        puts "\nWhich species would you like to learn more about?"
         type = species_get
         puts "\nA #{type[0]} skeleton is composed of two main parts."
         part = @prompt.select("\nWhat would you like to see?", choices)
@@ -72,10 +83,12 @@ class CLI
     end
 
     def species_get
-        choices = {Dog: 1, Horse: 2, Human: 3}
-        value = @prompt.select("Please choose one of the following species:", choices)
+        choices = ["Dog", "Horse", "Human"]
+        value = @prompt.select("Which species would you like to see?".red.bold.on_light_cyan, choices)
         value !=3 ? group = "Animal" : group = ""
-        choice = choices.keys[value-1].to_s
+        choice = choices.keys[value-1]
+        FullSkel.new(choice, type: group)
+        binding.pry
         [choice, group]
     end
     
