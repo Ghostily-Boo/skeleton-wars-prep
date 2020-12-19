@@ -23,25 +23,36 @@ class CLI
         puts "each bone's appearance  and  location so you"
         puts "can be completely ready!                    "
         puts "____________________________________________\n".cyan
-        species_get
-        @api.image_get(@species, "Skeleton", @group)
         main
     end
 
-    def main
-        choices = {
-            "Appendicular Bones": 1,
-            "Axial Bones": 2,
-            "Full Skeleton Image": 3,
-            "Main Menu": 4
-        }
-        puts "\nA #{@species} skeleton is composed of two main parts."
-        part = @prompt.select("\nWhat would you like to see?", choices)
+    def species_get
+        choices = ["Dog", "Horse", "Human"]
+        @species = @prompt.select("Which species would you like to see?".light_red.bold, choices)
+        @species != "Human" ? @group = "Animal" : @group = ""
+        FullSkel.new(species: @species, type: @group)
+    end
 
-        appendicular(type[0], type[1]) if part == 1
-        axial(type[0], type[1]) if part == 2
-        puts API.new.image_get(type[0], "skeleton", type[1]) if part == 3
-        main if part == 4
+    def main
+        species_get
+        @api.image_get(@species, "Skeleton", @group)
+        choices = [
+            "Appendicular Bones",
+            "Axial Bones",
+            "Main Menu".light_black
+        ]
+        number = @api.bone_count(@species, "Skeleton", @group)
+        puts "_______________________________________________________".cyan
+        puts "\n              #{@species.upcase}                       ".bold
+        puts "_______________________________________________________".cyan
+        puts "\n"
+        puts "A #{@species} skeleton has a total of #{number} bones."
+        puts "These bones are separated into TWO main parts.\n"
+        part = @prompt.select("What would you like to see?".light_red.bold, choices)
+
+        appendicular(@species, @group) if part == "Appendicular Bones"
+        axial(@species, @group) if part == "Axial Bones"
+        main if part == "Main Menu"
     end
 
     def appendicular(species, group, call = 1)
@@ -84,12 +95,7 @@ class CLI
         axial(species, group, 2)
     end
 
-    def species_get
-        choices = ["Dog", "Horse", "Human"]
-        @species = @prompt.select("Which species would you like to see?".light_red.bold, choices)
-        @species != "Human" ? @group = "Animal" : @group = ""
-        FullSkel.new(species: @species, type: @group)
-    end
+
     
     def part_get(part, list)
         @prompt.select("These are the components of #{part}.\nWould you like to see more details?", list)

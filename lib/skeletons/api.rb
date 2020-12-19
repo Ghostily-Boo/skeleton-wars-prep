@@ -20,6 +20,17 @@ class API
         list = search(api, trail).split(" | ")
     end
 
+    def bone_count(animal, part, group)
+        count = FullSkel.attr_search(animal, :count)
+        if !count
+            puts "Please wait..............................."
+            count = plaintext_get(animal, part, group).length
+            FullSkel.add_attr(animal, count: count)
+            binding.pry
+        end
+        count
+    end
+
     def search(input, trail)
         input = input.values[0]["pods"]
         input[1] ? input = input[1] : input = input[0]
