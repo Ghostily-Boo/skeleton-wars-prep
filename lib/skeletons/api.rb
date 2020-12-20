@@ -3,13 +3,18 @@ class API
     BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=#{ENV['AUTH']}"
 
     def image_get(animal, part, group)
-        #url = FullSkel.attr_search(animal, )
-        input = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
-        api = JSON.load(open(input))
-        trail = ["subpods", "img", "src"]
-        url = search(api, trail)
-        file = open(url)
-        Catpix::print_image file.path, limit_y: 0.5, resolution: "high"
+        url = FullSkel.attr_search(animal, :url)
+        file = FullSkel.attr_search(animal, :file)
+        binding.pry
+        if !url
+            input = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
+            api = JSON.load(open(input))
+            trail = ["subpods", "img", "src"]
+            url = search(api, trail)
+            file = open(url).path
+            FullSkel.add_attr(animal, url: url, file: file)
+        end
+        Catpix::print_image file, limit_y: 0.5, resolution: "high"
         puts "High-res URL:".cyan.on_red
         puts url.red
     end
@@ -23,7 +28,7 @@ class API
     end
 
     def bone_count(animal, part, group)
-        count = FullSkel.attr_search(animal, part, :count)
+        count = FullSkel.attr_search(animal, :count)
         if !count
             count = plaintext_get(animal, part, group).length
             FullSkel.add_attr(animal, count: count)

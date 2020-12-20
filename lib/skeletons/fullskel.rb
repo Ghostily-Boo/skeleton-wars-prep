@@ -11,14 +11,14 @@ class FullSkel
     end
 
     def self.add_attr(animal, attributes)
-        binding.pry
         all.each do |skeleton|
             if skeleton.species == animal
-                self.class.attr_accessor(attributes.keys[0])
-                self.send(("#{attributes.key[0]}="), attributes.values[0])
+                attributes.each do |key, value|
+                    skeleton.class.attr_accessor(key)
+                    skeleton.send(("#{key}="), value)
+                end
             end
         end
-        binding.pry
     end
 
     def self.all

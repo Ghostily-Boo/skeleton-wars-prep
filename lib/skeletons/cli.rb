@@ -43,7 +43,7 @@ class CLI
         ]
         number = @api.bone_count(@species, "Skeleton", @group)
         puts "_______________________________________________________".cyan
-        puts "\n              #{@species.upcase}                       ".bold
+        puts "\n                         #{@species.upcase}                         ".bold
         puts "_______________________________________________________".cyan
         puts "\n"
         puts "A #{@species} skeleton has a total of #{number} bones."
