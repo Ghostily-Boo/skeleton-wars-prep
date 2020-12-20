@@ -2,8 +2,9 @@ class API
 
     BASE_URL = "http://api.wolframalpha.com/v2/query?output=JSON&appid=#{ENV['AUTH']}"
 
-    def image_get(species, part, group)
-        input = BASE_URL + "&input=#{species}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
+    def image_get(animal, part, group)
+        #url = FullSkel.attr_search(animal, )
+        input = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
         api = JSON.load(open(input))
         trail = ["subpods", "img", "src"]
         url = search(api, trail)
@@ -15,15 +16,15 @@ class API
 
     def plaintext_get(animal, part, group)
         url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
+        puts "Please wait.....".black.on_light_black
         api = JSON.load(open(url))
         trail = ["subpods", "plaintext"]
         list = search(api, trail).split(" | ")
     end
 
     def bone_count(animal, part, group)
-        count = FullSkel.attr_search(animal, :count)
+        count = FullSkel.attr_search(animal, part, :count)
         if !count
-            puts "Please wait..............................."
             count = plaintext_get(animal, part, group).length
             FullSkel.add_attr(animal, count: count)
             binding.pry

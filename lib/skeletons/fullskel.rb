@@ -2,21 +2,22 @@ class FullSkel
 
     @@all = []
 
-    def initialize(nest = nil, attributes)
+    def initialize(attributes)
         attributes.each do |key, value|
             self.class.attr_accessor(key)
             self.send(("#{key}="), value)
         end
-        if nest
-            all.each do |skeleton|
-                if skeleton.species == nest
-                    
         self.class.all << self
     end
 
     def self.add_attr(animal, attributes)
         binding.pry
-        all.each {|skeleton| skeleton << attributes if skeleton.species == animal}
+        all.each do |skeleton|
+            if skeleton.species == animal
+                self.class.attr_accessor(attributes.keys[0])
+                self.send(("#{attributes.key[0]}="), attributes.values[0])
+            end
+        end
         binding.pry
     end
 
