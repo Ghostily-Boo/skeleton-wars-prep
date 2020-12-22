@@ -32,7 +32,6 @@ class CLI
         species != "Human" ? group = "Animal" : group = ""
         compare ? (@species_second = species) && (@group_second = group) : (@species = species) && (@group = group)
         FullSkel.new(species: species, type: group)
-        binding.pry
     end
 
     def main
@@ -78,7 +77,6 @@ class CLI
     end
 
     def appendicular
-        SkelParts.new(species: @species, type: @type, skelparts: "appendicular")
         puts "\n___________________________________________________".cyan
         puts "\n            #{@species.upcase} APPENDICULAR SKELETON            ".bold
         puts "___________________________________________________".cyan
@@ -130,7 +128,6 @@ class CLI
     end
 
     def axial
-        SkelParts.new(species: species, type: group, skelpart: axial)
         puts "\n___________________________________________________".cyan
         puts "\n            #{@species.upcase} AXIAL SKELETON               ".bold
         puts "___________________________________________________".cyan
