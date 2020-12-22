@@ -11,10 +11,7 @@ class API
             url = search(api, trail)
             FullSkel.add_attr(animal, part, url: url)
         end
-        file = Down.download(url).path
-        Catpix::print_image file, limit_y: 0.5, resolution: "high"
-        puts "\nClick the URL to open a better image:".cyan.on_red
-        puts url.red
+        url
     end
 
     def plaintext_get(animal, part, group)

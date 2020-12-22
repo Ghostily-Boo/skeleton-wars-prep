@@ -40,7 +40,7 @@ class CLI
         puts "\n                       #{@species.upcase}                       ".bold
         puts "___________________________________________________".cyan
         puts "\n"
-        @api.image_get(@species, "Skeleton", @group)
+        display_image(@species, "Skeleton", @group)
         number = @api.bone_count(@species, "Skeleton", @group)
         puts "\n___________________________________________________".cyan
         puts "\nA #{@species} skeleton has a total of #{number} bones." if @species != "Horse"
@@ -81,7 +81,7 @@ class CLI
         puts "\n            #{@species.upcase} APPENDICULAR SKELETON            ".bold
         puts "___________________________________________________".cyan
         puts "\n"
-        @api.image_get(@species, "Appendicular+Skeleton", @group)
+        display_image(@species, "Appendicular+Skeleton", @group)
         number = @api.bone_count(@species, "Appendicular+Skeleton", @group)
         puts "\n___________________________________________________".cyan
         puts "\nYou're in the #{@species} Appendicular Skeleton!"
@@ -111,12 +111,12 @@ class CLI
         until choice != "Compare" do
             choice = @prompt.select("What would you like to see?".light_red.bold, choices)
             if choice != "Compare" && choice != "Main Species Select".light_black
-                @api.image_get(@species, "#{choice.gsub(/\s+/, "+")}", @group)
+                display_image(@species, "#{choice.gsub(/\s+/, "+")}", @group)
             elsif choice == "Main Species Select".light_black
                 main
             else
                 species_get(true)
-                @api.image_get(@species_second, "#{skelpart}+Skeleton", @group_second)
+                display_image(@species_second, "#{skelpart}+Skeleton", @group_second)
                 puts "\nYou're still in the #{@species} #{skelpart} Skeleton.".light_red.bold
             end
         end
@@ -137,7 +137,7 @@ class CLI
         puts "\n             #{@species.upcase} AXIAL SKELETON              ".bold
         puts "___________________________________________________".cyan
         puts "\n"
-        @api.image_get(@species, "Axial+Skeleton", @group)
+        display_image(@species, "Axial+Skeleton", @group)
         number = @api.bone_count(@species, "Axial+Skeleton", @group)
         puts "\n___________________________________________________".cyan
         puts "\nYou're in the #{@species} Axial Skeleton!"
@@ -154,6 +154,14 @@ class CLI
             "Main Species Select".light_black
         ]
         sub_parts(choices, "Axial")
+    end
+
+    def display_image(species, part, group)
+        url = @api.image_get(species, part, group)
+        file = Down.download(url).path
+        Catpix::print_image file, limit_y: 0.5, resolution: "high"
+        puts "\nClick the URL to open a better image:".cyan.on_red
+        puts url.red
     end
 
 end
