@@ -10,8 +10,12 @@ class FullSkel
         self.class.all << self
     end
 
+    def self.all
+        @@all
+    end
+
     def self.add_attr(animal, part, attributes)
-        if part
+        if part != "Skeleton"
             SkelParts.add_attr(animal, part, attributes)
         else
             all.each do |skeleton|
@@ -25,12 +29,8 @@ class FullSkel
         end
     end
 
-    def self.all
-        @@all
-    end
-
     def self.attr_search(species, part, attribute)
-        if part
+        if part != "Skeleton"
             value = SkelParts.attr_search(species, part, attribute)
         else
             value = nil
@@ -42,8 +42,4 @@ class FullSkel
         end
         value
     end
-
-    def self.skelparts
-        SkelParts.all
-
 end

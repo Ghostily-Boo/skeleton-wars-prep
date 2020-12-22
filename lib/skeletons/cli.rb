@@ -45,7 +45,8 @@ class CLI
         number = @api.bone_count(@species, "Skeleton", @group)
         puts "\n___________________________________________________".cyan
         puts "\nA #{@species} skeleton has a total of #{number} bones." if @species != "Horse"
-        puts "\nThese bones are separated into two main parts:\n\nAppendicular and Axial."
+        puts "\nThese bones are separated into two main parts:"
+        puts "Appendicular and Axial."
         puts "\nYou can choose to explore these parts, compare"
         puts "with another animal's image, or pick a new animal."
         puts "___________________________________________________\n".cyan
@@ -86,7 +87,7 @@ class CLI
         number = @api.bone_count(@species, "Appendicular+Skeleton", @group)
         puts "\n___________________________________________________".cyan
         puts "You're in the #{@species} Appendicular Skeleton!"
-        puts "\nA #{@species} Appendicular Skeleton has a total of" if species != "Horse"
+        puts "\nA #{@species} Appendicular Skeleton has a total of" if @species != "Horse"
         puts "#{number} bones." if @species != "Horse"
         if @species == "Human"
             parts = ["Upperlimb Bones", "Lowerlimb Bones"]
@@ -94,7 +95,7 @@ class CLI
             parts = ["Forelimbs Bones", "Hindlimbs Bones"]
         end
         puts "\nThese bones are separated into two main parts:"
-        puts "\n\n#{parts[0]} and #{parts[1]}."
+        puts "#{parts[0]} and #{parts[1]}."
         puts "\nYou can choose to look at subpart images, compare"
         puts "with another animal's image, or pick a new animal."
         puts "___________________________________________________\n".cyan
@@ -121,6 +122,11 @@ class CLI
                 puts "\nYou're still in the #{@species} #{skelpart} Skeleton.".light_red.bold
             end
         end
+        if skelpart == "Axial"
+            axial
+        elsif skelpart == "Appendicular"
+            appendicular
+        end
     end
 
     def axial
@@ -133,10 +139,10 @@ class CLI
         number = @api.bone_count(@species, "Axial+Skeleton", @group)
         puts "\n___________________________________________________".cyan
         puts "You're in the #{@species} Axial Skeleton!"
-        puts "\nA #{@species} Axial Skeleton has a total of" if species != "Horse"
+        puts "\nA #{@species} Axial Skeleton has a total of" if @species != "Horse"
         puts "#{number} bones." if @species != "Horse"
         puts "\nThese bones are separated into two main parts:"
-        puts "\n\nthe Skull and everything else."
+        puts "the Skull and everything else."
         puts "\nYou can choose to look at a skull image, compare"
         puts "with another animal's image, or pick a new animal."
         puts "___________________________________________________\n".cyan
@@ -145,7 +151,7 @@ class CLI
             "Compare",
             "Main Species Select".light_black
         ]
-        sub_choices(choices, "Axial")
+        sub_parts(choices, "Axial")
     end
 
 end

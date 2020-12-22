@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'open-uri'
   spec.add_development_dependency 'catpix'
   spec.add_development_dependency 'colorize'
+  spec.add_development_dependency 'down'
 end

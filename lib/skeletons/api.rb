@@ -10,7 +10,7 @@ class API
             api = JSON.load(open(input))
             trail = ["subpods", "img", "src"]
             url = search(api, trail)
-            file = open(url).path
+            file = Down.download(url).path
             FullSkel.add_attr(animal, part, url: url, file: file)
         end
         Catpix::print_image file, limit_y: 0.5, resolution: "high"
@@ -25,7 +25,7 @@ class API
             api = JSON.load(open(url))
             trail = ["subpods", "plaintext"]
             list = search(api, trail).split(" | ")
-            FullSkel.add_attr(animal, part, count: count)
+            FullSkel.add_attr(animal, part, list: list)
         end
         list
     end
@@ -33,12 +33,12 @@ class API
     def bone_count(animal, part, group)
         count = FullSkel.attr_search(animal, part, :count)
         if !count
-            if part == ""
+            if part == "Skeleton"
                 url = BASE_URL + "&input=#{animal}+bone+count&includepodid=Result&format=plaintext"
                 api = JSON.load(open(url))
                 trail = ["subpods", "plaintext"]
                 count = search(api, trail)
-                FullSkel.add_attr(animal, count: count)
+                FullSkel.add_attr(animal, part, count: count)
             else
                 count = plaintext_get(animal, part, group).length
                 FullSkel.add_attr(animal, part, count: count)
