@@ -124,6 +124,7 @@ class CLI
             {name: "Return"},
             {name: "Exit", disabled: "(not allowed)"}
         ]
+        @prompt.select("What now?", final_choice)
         if skelpart == "Axial"
             axial
         elsif skelpart == "Appendicular"

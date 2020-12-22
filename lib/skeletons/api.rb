@@ -4,15 +4,14 @@ class API
 
     def image_get(animal, part, group)
         url = FullSkel.attr_search(animal, part, :url)
-        file = FullSkel.attr_search(animal, part, :file)
         if !url
             input = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
             api = JSON.load(open(input))
             trail = ["subpods", "img", "src"]
             url = search(api, trail)
-            file = Down.download(url).path
-            FullSkel.add_attr(animal, part, url: url, file: file)
+            FullSkel.add_attr(animal, part, url: url)
         end
+        file = Down.download(url).path
         Catpix::print_image file, limit_y: 0.5, resolution: "high"
         puts "\nClick the URL to open a better image:".cyan.on_red
         puts url.red
