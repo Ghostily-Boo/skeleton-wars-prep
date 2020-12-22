@@ -25,7 +25,7 @@ class API
             api = JSON.load(open(url))
             trail = ["subpods", "plaintext"]
             list = search(api, trail).split(" | ")
-            FullSkel.add_attr(animal, list: list)
+            SkelParts.add_attr(animal, part, count: count)
         end
         list
     end
@@ -33,8 +33,17 @@ class API
     def bone_count(animal, part, group)
         count = FullSkel.attr_search(animal, :count)
         if !count
-            count = plaintext_get(animal, part, group).length
-            FullSkel.add_attr(animal, count: count)
+            if part == ""
+                url = BASE_URL + "&input=#{animal}+bone+count&includepodid=Result&format=plaintext"
+                api = JSON.load(open(url))
+                trail = ["subpods", "plaintext"]
+                count = search(api, trail)
+                FullSkel.add_attr(animal, count: count)
+            else
+                count = plaintext_get(animal, part, group).length
+                SkelParts.add_attr(animal, part, count: count)
+            else
+            end
         end
         count
     end
