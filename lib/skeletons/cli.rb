@@ -31,7 +31,7 @@ class CLI
         species = @prompt.select("\nWhich species would you like to see?".light_red.bold, choices)
         species != "Human" ? group = "Animal" : group = ""
         compare ? (@species_second = species) && (@group_second = group) : (@species = species) && (@group = group)
-        FullSkel.new(species: species, type: group)
+        FullSkel.new(species: species, type: group) unless FullSkel.all.any? {|skeleton| skeleton.species == species}
     end
 
     def main
@@ -120,6 +120,10 @@ class CLI
                 puts "\nYou're still in the #{@species} #{skelpart} Skeleton.".light_red.bold
             end
         end
+        final_choice = [
+            {name: "Return"},
+            {name: "Exit", disabled: "(not allowed)"}
+        ]
         if skelpart == "Axial"
             axial
         elsif skelpart == "Appendicular"

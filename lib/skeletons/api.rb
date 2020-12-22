@@ -25,7 +25,6 @@ class API
             api = JSON.load(open(url))
             trail = ["subpods", "plaintext"]
             list = search(api, trail).split(" | ")
-            FullSkel.add_attr(animal, part, list: list)
         end
         list
     end

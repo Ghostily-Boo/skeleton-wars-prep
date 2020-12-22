@@ -17,7 +17,7 @@ class FullSkel
     def self.add_attr(animal, part, attributes)
         subpart = nil
         if part != "Skeleton"
-            subpart = part.gsub(/\W\w*/).downcase
+            subpart = part.gsub(/\W\w*/, "").downcase
         end
         all.each do |skeleton|
             if skeleton.species == animal
@@ -27,15 +27,14 @@ class FullSkel
                     skeleton.send(("#{key}="), value)
                 end
             end
-            binding.pry
         end
     end
 
     def self.attr_search(species, part, attribute)
         subpart = nil
         if part != "Skeleton"
-            subpart = part.gsub(/\W\w*/).downcase
-            attribute = (subpart + "_" + key.to_s).to_sym if subpart
+            subpart = part.gsub(/\W\w*/, "").downcase
+            attribute = (subpart + "_" + attribute.to_s).to_sym if subpart
         end
         value = nil
         all.each do |skeleton|
