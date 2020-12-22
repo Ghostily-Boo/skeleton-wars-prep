@@ -28,12 +28,10 @@ class FullSkel
     def self.attr_search(species, attribute)
         value = nil
         all.each do |skeleton|
-            binding.pry
             if skeleton.species == species && skeleton.respond_to?(attribute)
-                value = skeleton.attribute
+                value = skeleton.method(attribute).call
             end
         end
-        binding.pry
         value
     end
 

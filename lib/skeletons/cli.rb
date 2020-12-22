@@ -26,43 +26,64 @@ class CLI
         main
     end
 
-    def species_get
+    def wait
+        puts "Please wait.....".black.on_light_black
+    end
+
+    def species_get(compare = false)
         choices = ["Dog", "Horse", "Human"]
-        @species = @prompt.select("Which species would you like to see?".light_red.bold, choices)
-        @species != "Human" ? @group = "Animal" : @group = ""
-        FullSkel.new(species: @species, type: @group)
+        species = @prompt.select("Which species would you like to see?".light_red.bold, choices)
+        species != "Human" ? group = "Animal" : group = ""
+        compare ? (@species_second = species) && (@group_second = group) : (@species = species) && (@group = group)
+        FullSkel.new(species: species, type: group)
     end
 
     def main
         species_get
+        puts "\n_______________________________________________".cyan
+        puts "\n                     #{@species.upcase}                     ".bold
+        puts "_______________________________________________".cyan
+        puts "\n"
         @api.image_get(@species, "Skeleton", @group)
         choices = [
             "Appendicular Bones",
             "Axial Bones",
+            "Compare",
             "Main Menu".light_black
         ]
         number = @api.bone_count(@species, "Skeleton", @group)
-        puts "_______________________________________________________".cyan
-        puts "\n                         #{@species.upcase}                         ".bold
-        puts "_______________________________________________________".cyan
-        puts "\n"
-        puts "A #{@species} skeleton has a total of #{number} bones."
-        puts "These bones are separated into TWO main parts.\n"
-        part = @prompt.select("What would you like to see?".light_red.bold, choices)
 
-        appendicular(@species, @group) if part == "Appendicular Bones"
-        axial(@species, @group) if part == "Axial Bones"
-        main if part == "Main Menu"
+        puts "\n_______________________________________________".cyan
+        puts "\nA #{@species} skeleton has a total of #{number} bones."
+        puts "\nThese bones are separated into two main parts:\n\nAppendicular and Axial."
+        puts "\nYou can choose to explore these parts, compare"
+        puts "with another animal's image, or main menu"
+        puts "_______________________________________________\n".cyan
+
+        part = "Compare"
+        until part != "Compare" do
+            part = @prompt.select("What would you like to see?".light_red.bold, choices)
+            if part == "Appendicular Bones"
+                appendicular(@species, @group)
+            elsif part == "Axial Bones"
+                axial(@species, @group)
+            elsif part == "Main Menu"
+                main
+            else
+                species_get(true)
+                @api.image_get(@species_second, "Skeleton", @group_second)
+                puts "\nYou're still in the #{@species} skeleton.".light_red.bold
+            end
+        end
     end
 
     def appendicular(species, group, call = 1)
-        choices = {
-            "Appendicular Skeleton Image": 1,
-            "Forelimb Image": 2,
-            "Hindlimb Image": 3,
-            "Compair with Another Animal": 4,
-            "Main Menu": 5
-        } 
+        choices = [
+            "Forelimb",
+            "Hindlimb",
+            "Compair with Another Animal",
+            "Main Menu"
+        ] 
         puts "\nYou're in the #{species} Appendicular Skeleton!"
         list = API.new.plaintext_get(species, "appendicular+skeleton", group) if call == 1
         puts "\nA #{species} appendicular skeleton has #{list.length} bones divided into a few subgroups." if call == 1

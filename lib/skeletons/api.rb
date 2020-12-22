@@ -5,7 +5,6 @@ class API
     def image_get(animal, part, group)
         url = FullSkel.attr_search(animal, :url)
         file = FullSkel.attr_search(animal, :file)
-        binding.pry
         if !url
             input = BASE_URL + "&input=#{animal}+#{part}&includepodid=BodyLocation:#{group}AnatomyData"
             api = JSON.load(open(input))
@@ -15,16 +14,20 @@ class API
             FullSkel.add_attr(animal, url: url, file: file)
         end
         Catpix::print_image file, limit_y: 0.5, resolution: "high"
-        puts "High-res URL:".cyan.on_red
+        puts "\nClick the URL to open a better image:".cyan.on_red
         puts url.red
     end
 
     def plaintext_get(animal, part, group)
-        url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
-        puts "Please wait.....".black.on_light_black
-        api = JSON.load(open(url))
-        trail = ["subpods", "plaintext"]
-        list = search(api, trail).split(" | ")
+        list = FullSkel.attr_search(animal, :list)
+        if !list
+            url = BASE_URL + "&input=#{animal}+#{part}&includepodid=ConstitutionalParts:#{group}AnatomyData&includepodid=HierarchyRelationships:#{group}AnatomyData&podstate=100@More&format=plaintext"
+            api = JSON.load(open(url))
+            trail = ["subpods", "plaintext"]
+            list = search(api, trail).split(" | ")
+            FullSkel.add_attr(animal, list: list)
+        end
+        list
     end
 
     def bone_count(animal, part, group)
@@ -32,7 +35,6 @@ class API
         if !count
             count = plaintext_get(animal, part, group).length
             FullSkel.add_attr(animal, count: count)
-            binding.pry
         end
         count
     end
