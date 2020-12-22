@@ -26,16 +26,13 @@ class CLI
         main
     end
 
-    def wait
-        puts "Please wait.....".black.on_light_black
-    end
-
     def species_get(compare = false)
         choices = ["Dog", "Horse", "Human"]
         species = @prompt.select("\nWhich species would you like to see?".light_red.bold, choices)
         species != "Human" ? group = "Animal" : group = ""
         compare ? (@species_second = species) && (@group_second = group) : (@species = species) && (@group = group)
         FullSkel.new(species: species, type: group)
+        binding.pry
     end
 
     def main
@@ -80,6 +77,7 @@ class CLI
     end
 
     def appendicular
+        SkelParts.new(species: @species, type: @type, skelparts: "appendicular")
         puts "\n___________________________________________________".cyan
         puts "\n            #{@species.upcase} APPENDICULAR SKELETON            ".bold
         puts "___________________________________________________".cyan
@@ -91,9 +89,9 @@ class CLI
         puts "\nA #{@species} Appendicular Skeleton has a total of" if species != "Horse"
         puts "#{number} bones." if @species != "Horse"
         if @species == "Human"
-            parts = ["Upperlimb", "Lowerlimb"]
+            parts = ["Upperlimb Bones", "Lowerlimb Bones"]
         else
-            parts = ["Forelimbs", "Hindlimbs"]
+            parts = ["Forelimbs Bones", "Hindlimbs Bones"]
         end
         puts "\nThese bones are separated into two main parts:"
         puts "\n\n#{parts[0]} and #{parts[1]}."
@@ -113,8 +111,8 @@ class CLI
         choice = "Compare"
         until choice != "Compare" do
             choice = @prompt.select("What would you like to see?".light_red.bold, choices)
-            if choice == choices[0] || choice == choices[1]
-                @api.image_get(@species, "#{choice}+Skeleton", @group)
+            if choice != "Compare" && choice != "Main Species Select".light_black
+                @api.image_get(@species, "#{choice.gsub(/\s+/, "+")}", @group)
             elsif choice == "Main Species Select".light_black
                 main
             else
@@ -126,6 +124,7 @@ class CLI
     end
 
     def axial
+        SkelParts.new(species: species, type: group, skelpart: axial)
         puts "\n___________________________________________________".cyan
         puts "\n            #{@species.upcase} AXIAL SKELETON               ".bold
         puts "___________________________________________________".cyan

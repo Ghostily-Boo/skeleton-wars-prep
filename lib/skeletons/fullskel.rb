@@ -10,12 +10,16 @@ class FullSkel
         self.class.all << self
     end
 
-    def self.add_attr(animal, attributes)
-        all.each do |skeleton|
-            if skeleton.species == animal
-                attributes.each do |key, value|
-                    skeleton.class.attr_accessor(key)
-                    skeleton.send(("#{key}="), value)
+    def self.add_attr(animal, part, attributes)
+        if part
+            SkelParts.add_attr(animal, part, attributes)
+        else
+            all.each do |skeleton|
+                if skeleton.species == animal
+                    attributes.each do |key, value|
+                        skeleton.class.attr_accessor(key)
+                        skeleton.send(("#{key}="), value)
+                    end
                 end
             end
         end
@@ -25,14 +29,21 @@ class FullSkel
         @@all
     end
 
-    def self.attr_search(species, attribute)
-        value = nil
-        all.each do |skeleton|
-            if skeleton.species == species && skeleton.respond_to?(attribute)
-                value = skeleton.method(attribute).call
+    def self.attr_search(species, part, attribute)
+        if part
+            value = SkelParts.attr_search(species, part, attribute)
+        else
+            value = nil
+            all.each do |skeleton|
+                if skeleton.species == species && skeleton.respond_to?(attribute)
+                    value = skeleton.method(attribute).call
+                end
             end
         end
         value
     end
+
+    def self.skelparts
+        SkelParts.all
 
 end
