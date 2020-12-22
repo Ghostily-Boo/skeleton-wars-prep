@@ -59,7 +59,10 @@ class CLI
         puts "\nYou can choose to explore these parts, compare"
         puts "with another animal's image, or main menu"
         puts "_______________________________________________\n".cyan
+        main_choices
+    end
 
+    def main_choices
         part = "Compare"
         until part != "Compare" do
             part = @prompt.select("What would you like to see?".light_red.bold, choices)
