@@ -84,7 +84,7 @@ class CLI
         @api.image_get(@species, "Appendicular+Skeleton", @group)
         number = @api.bone_count(@species, "Appendicular+Skeleton", @group)
         puts "\n___________________________________________________".cyan
-        puts "You're in the #{@species} Appendicular Skeleton!"
+        puts "\nYou're in the #{@species} Appendicular Skeleton!"
         puts "\nA #{@species} Appendicular Skeleton has a total of" if @species != "Horse"
         puts "#{number} bones." if @species != "Horse"
         if @species == "Human"
@@ -134,13 +134,13 @@ class CLI
 
     def axial
         puts "\n___________________________________________________".cyan
-        puts "\n            #{@species.upcase} AXIAL SKELETON               ".bold
+        puts "\n             #{@species.upcase} AXIAL SKELETON              ".bold
         puts "___________________________________________________".cyan
         puts "\n"
         @api.image_get(@species, "Axial+Skeleton", @group)
         number = @api.bone_count(@species, "Axial+Skeleton", @group)
         puts "\n___________________________________________________".cyan
-        puts "You're in the #{@species} Axial Skeleton!"
+        puts "\nYou're in the #{@species} Axial Skeleton!"
         puts "\nA #{@species} Axial Skeleton has a total of" if @species != "Horse"
         puts "#{number} bones." if @species != "Horse"
         puts "\nThese bones are separated into two main parts:"
